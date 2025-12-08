@@ -45,6 +45,20 @@ public class BoardService {
         return param;
     }
 
+    public Map<String, Object> updateTodoStatus(Map<String, Object> param) {
+        int todoId = (Integer) param.get("todoId");
+        int status = (Integer) param.get("status");
+
+        getTodoOrThrow(todoId);  // 존재 확인
+
+        Map<String, Object> updateParam = new HashMap<>();
+        updateParam.put("todoId", todoId);
+        updateParam.put("status", status);
+
+        boardMapper.updateTodoStatus(updateParam);
+        return Map.of("todoId", todoId, "status", status);
+    }
+
     public Map<String, Object> deleteTodo(int todoId) {
         getTodoOrThrow(todoId);
         boardMapper.deleteTodo(todoId);

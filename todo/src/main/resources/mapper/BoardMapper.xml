@@ -61,6 +61,12 @@
         WHERE TODO_ID = #{todoId}
     </update>
 
+    <update id="updateTodoStatus" parameterType="map">
+        UPDATE BOARD
+        SET STATUS = #{status}
+        WHERE TODO_ID = #{todoId}
+    </update>
+
     <delete id="deleteTodo" parameterType="int">
         DELETE FROM BOARD
         WHERE TODO_ID = #{todoId}

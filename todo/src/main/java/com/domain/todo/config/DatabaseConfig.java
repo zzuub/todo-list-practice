@@ -1,4 +1,4 @@
-package com.domain.todo.Config;
+package com.domain.todo.config;
 
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;

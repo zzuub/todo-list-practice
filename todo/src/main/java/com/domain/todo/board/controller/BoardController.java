@@ -53,6 +53,18 @@ public class BoardController {
         return boardService.updateTodo(param);
     }
 
+    @PatchMapping("/todos/{todoId}/status")
+    public Map<String, Object> updateTodoStatus(@PathVariable int todoId) {
+        Map<String, Object> todo = boardService.getTodoDetail(todoId);
+
+        // Boolean이든 Integer든 0/1로 통일
+        int currentStatus = todo.get("STATUS") == Boolean.TRUE ? 1 : 0;
+        int newStatus = currentStatus == 1 ? 0 : 1;
+
+        Map<String, Object> param = Map.of("todoId", todoId, "status", newStatus);
+        return boardService.updateTodoStatus(param);
+    }
+
     @DeleteMapping("/todos/{todoId}")
     public Map<String, Object> deleteTodo(@PathVariable int todoId) {
         return boardService.deleteTodo(todoId);

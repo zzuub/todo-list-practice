@@ -1,0 +1,134 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    padding: 20px;
+}
+.container { max-width: 1200px; margin: 0 auto; }
+
+h1 {
+    text-align: center; color: white; margin-bottom: 30px;
+    font-size: 2.5em; text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+h3 { color: #333; margin-bottom: 20px; text-align: center; }
+
+.add-list-button {
+    display: block; margin: 0 auto 30px; padding: 15px 30px;
+    background: #4CAF50; color: white; border: none; border-radius: 25px;
+    font-size: 18px; cursor: pointer; box-shadow: 0 4px 15px rgba(76,175,80,0.4);
+    transition: all 0.3s ease;
+}
+.add-list-button:hover { background: #45a049; transform: translateY(-2px); }
+
+.lists-container { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; }
+
+.list-card {
+    background: white; border-radius: 15px; box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    width: 870px; overflow: hidden; transition: transform 0.3s ease;
+}
+.list-card:hover { transform: translateY(-5px); }
+.list-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white; padding: 20px; text-align: center;
+}
+.list-title { font-size: 1.3em; margin-bottom: 10px; }
+.list-actions { display: flex; gap: 10px; justify-content: center; }
+.list-actions button {
+    padding: 8px 12px; border: none; border-radius: 50%; cursor: pointer;
+    font-size: 14px; transition: all 0.3s ease;
+}
+.edit-list { background: #2196F3; color: white; }
+.delete-list { background: #f44336; color: white; }
+.edit-list:hover, .delete-list:hover { transform: scale(1.1); }
+
+.todo-table { width: 100%; border-collapse: collapse; }
+.todo-table th, .todo-table td { padding: 12px; text-align: left; border-bottom: 1px solid #eee; }
+.todo-table th { background: #f8f9fa; font-weight: 600; color: #555; }
+.todo-row.completed td { opacity: 0.6; }
+.todo-row.completed .todo-name { text-decoration: line-through; color: #999; }
+.todo-actions { display: flex; gap: 5px; }
+.todo-actions button {
+    padding: 5px 8px; border: none; border-radius: 4px; cursor: pointer; font-size: 12px;
+}
+.done-btn { background: #4CAF50; color: white; }
+.undone-btn { background: #ff9800; color: white; }
+.edit-todo { background: #2196F3; color: white; }
+.delete-todo { background: #f44336; color: white; }
+
+.modal {
+    display: none; position: fixed; z-index: 1000; left: 0; top: 0;
+    width: 100%; height: 100%; background: rgba(0,0,0,0.5);
+}
+.modal-content {
+    background: white; margin: 15% auto; padding: 30px; border-radius: 15px;
+    width: 90%; max-width: 400px; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+.close { color: #aaa; float: right; font-size: 28px; font-weight: bold; cursor: pointer; }
+.close:hover { color: #000; }
+.modal form { display: flex; flex-direction: column; gap: 20px; }
+.modal input {
+    padding: 15px; border: 2px solid #ddd; border-radius: 8px; font-size: 16px;
+}
+.modal-buttons { display: flex; gap: 10px; justify-content: flex-end; }
+.modal-buttons button {
+    padding: 12px 24px; border: none; border-radius: 8px; cursor: pointer; font-size: 16px;
+}
+.modal-buttons button[type="button"] { background: #6c757d; color: white; }
+.modal-buttons button[type="submit"] { background: #007bff; color: white; }
+
+.edit-modal {
+    background: white;
+    padding: 40px;
+    border-radius: 15px;
+    max-width: 700px;
+    margin: 0 auto;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+}
+
+.edit-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.edit-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.edit-input, .edit-textarea {
+    padding: 15px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+}
+
+.edit-input { min-height: 48px; }
+.edit-textarea { font-family: inherit; resize: vertical; }
+
+.edit-buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: flex-end;
+}
+
+.edit-btn-cancel {
+    padding: 12px 24px;
+    background: #6c757d;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.edit-btn-save {
+    padding: 12px 24px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}

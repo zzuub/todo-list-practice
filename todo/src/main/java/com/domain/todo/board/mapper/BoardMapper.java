@@ -17,5 +17,7 @@ public interface BoardMapper {
 
     int updateTodo(Map<String, Object> param);
 
+    int updateTodoStatus(Map<String, Object> param);
+
     int deleteTodo(int todoId);
 }
