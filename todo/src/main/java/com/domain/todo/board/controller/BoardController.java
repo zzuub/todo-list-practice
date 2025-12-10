@@ -58,7 +58,7 @@ public class BoardController {
     public Map<String, Object> updateTodoStatus(@PathVariable int todoId) {
         Map<String, Object> todo = boardService.getTodoDetail(todoId);
 
-        int currentStatus = todo.get("STATUS") == Boolean.TRUE ? 1 : 0;
+        int currentStatus = ((Number) todo.get("STATUS")).intValue();
         int newStatus = currentStatus == 1 ? 0 : 1;
 
         Map<String, Object> param = Map.of("todoId", todoId, "status", newStatus);

@@ -8,18 +8,18 @@
         TODO_ID,
         CONTENT,
         DATE_FORMAT(REGIST_DATE, '%Y-%m-%d') AS registDate,
-        STATUS
+        CASE WHEN STATUS = 'Y' THEN 1 WHEN STATUS = 'N' THEN 0 ELSE 0 END AS STATUS
         FROM BOARD
         <where>
             <if test="search != null and search != ''">
                 AND CONTENT LIKE CONCAT('%', #{search}, '%')
             </if>
             <if test="status != null">
-                AND STATUS = #{status}
+                AND STATUS = CASE WHEN #{status} = 1 THEN 'Y' ELSE 'N' END
             </if>
         </where>
         ORDER BY
-        CASE WHEN STATUS = 0 THEN 0 ELSE 1 END,
+        CASE WHEN STATUS = 'N' THEN 0 ELSE 1 END,
         REGIST_DATE DESC
         LIMIT #{pageSize} OFFSET #{offset}
     </select>
@@ -32,7 +32,7 @@
                 AND CONTENT LIKE CONCAT('%', #{search}, '%')
             </if>
             <if test="status != null">
-                AND STATUS = #{status}
+                AND STATUS = CASE WHEN #{status} = 1 THEN 'Y' ELSE 'N' END
             </if>
         </where>
     </select>
@@ -42,32 +42,30 @@
             TODO_ID,
             CONTENT,
             DATE_FORMAT(REGIST_DATE, '%Y-%m-%d') AS registDate,
-            STATUS
+            CASE WHEN STATUS = 'Y' THEN 1 WHEN STATUS = 'N' THEN 0 ELSE 0 END AS STATUS
         FROM BOARD
         WHERE TODO_ID = #{todoId}
     </select>
 
     <insert id="addTodo" parameterType="map" useGeneratedKeys="true" keyProperty="todoId">
-        INSERT INTO BOARD (
-            CONTENT,
-            STATUS,
-            REGIST_DATE
-        ) VALUES (
-            #{content},
-            COALESCE(#{status}, 0),
-            #{registDate, jdbcType=TIMESTAMP}
-        )
+        INSERT INTO BOARD (CONTENT, STATUS, REGIST_DATE)
+        VALUES (#{content},
+                CASE WHEN #{status} = 1 THEN 'Y' WHEN #{status} = 0 THEN 'N' ELSE 'N' END,
+                #{registDate, jdbcType=TIMESTAMP})
     </insert>
 
+    <!-- ✅ 수정1: updateTodo 쉼표 위치 고침 -->
     <update id="updateTodo" parameterType="map">
         UPDATE BOARD
-        SET CONTENT = #{content}
+        SET CONTENT = #{content},
+        STATUS = CASE WHEN #{status} = 1 THEN 'Y' ELSE 'N' END  <!-- 같은 줄에 쉼표! -->
         WHERE TODO_ID = #{todoId}
     </update>
 
+    <!-- ✅ updateTodoStatus (이미 완벽!) -->
     <update id="updateTodoStatus" parameterType="map">
         UPDATE BOARD
-        SET STATUS = #{status}
+        SET STATUS = CASE WHEN #{status} = 1 THEN 'Y' ELSE 'N' END
         WHERE TODO_ID = #{todoId}
     </update>
 
