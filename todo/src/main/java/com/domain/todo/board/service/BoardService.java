@@ -45,7 +45,11 @@ public class BoardService {
         validateTodoParam(param);
         int todoId = (Integer) param.get("todoId");
         getTodoOrThrow(todoId);
-        boardMapper.updateTodo(param);
+
+        int result = boardMapper.updateTodo(param);
+        if (result == 0) {
+            throw new ApiException(ExceptionCode.UPDATE_FAILED);
+        }
         return param;
     }
 
@@ -78,6 +82,7 @@ public class BoardService {
         return Map.of("todoId", todoId);
     }
 
+    //TodoId 확인,예외처리
     private Map<String, Object> getTodoOrThrow(int todoId) {
         Map<String, Object> todo = boardMapper.getTodoDetail(todoId);
         if (todo == null || todo.isEmpty()) {
@@ -94,14 +99,6 @@ public class BoardService {
         if (content.length() > 1000) {
             throw new ApiException(ExceptionCode.CONTENT_TOO_LONG);
         }
-    }
-
-    public int getTotalCount() {
-        return boardMapper.getTodoListCnt(Map.of());
-    }
-
-    public int getTotalPages(int pageSize) {
-        return (int) Math.ceil((double) getTotalCount() / pageSize);
     }
 
     public int getTodoListCnt(Map<String, Object> param) {

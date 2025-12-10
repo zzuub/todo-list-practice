@@ -69,7 +69,7 @@ function displayTodoLists(data) {
     const sortedTodos = [...ongoingTodos, ...completedTodos];
 
     const totalCnt = data.totalCnt || 0;
-    const totalPages = Math.ceil(totalCnt / PAGE_SIZE);
+    const totalPages = data.totalPages || 0;
 
     const searchInfo = currentSearch || currentStatus ?
         `<span style="font-size:0.7em;color:#666;">🔍 ${currentSearch || ''}${currentStatus ? (currentSearch ? ' + ' : '') + (currentStatus == 0 ? '미완료' : '완료') : ''}</span>` : '';
