@@ -10,6 +10,7 @@
         DATE_FORMAT(REGIST_DATE, '%Y-%m-%d') AS registDate,
         CASE WHEN STATUS = 'Y' THEN 1 WHEN STATUS = 'N' THEN 0 ELSE 0 END AS STATUS
         FROM BOARD
+        WHERE DELETE_FLAG = 'N'
         <where>
             <if test="search != null and search != ''">
                 AND CONTENT LIKE CONCAT('%', #{search}, '%')
@@ -27,6 +28,7 @@
     <select id="getTodoListCnt" parameterType="map" resultType="int">
         SELECT COUNT(*)
         FROM BOARD
+        WHERE DELETE_FLAG = 'N'
         <where>
             <if test="search != null and search != ''">
                 AND CONTENT LIKE CONCAT('%', #{search}, '%')
@@ -44,7 +46,7 @@
             DATE_FORMAT(REGIST_DATE, '%Y-%m-%d') AS registDate,
             CASE WHEN STATUS = 'Y' THEN 1 WHEN STATUS = 'N' THEN 0 ELSE 0 END AS STATUS
         FROM BOARD
-        WHERE TODO_ID = #{todoId}
+        WHERE TODO_ID = #{todoId} AND DELETE_FLAG = 'N'
     </select>
 
     <insert id="addTodo" parameterType="map" useGeneratedKeys="true" keyProperty="todoId">
@@ -54,24 +56,23 @@
                 #{registDate, jdbcType=TIMESTAMP})
     </insert>
 
-    <!-- ✅ 수정1: updateTodo 쉼표 위치 고침 -->
     <update id="updateTodo" parameterType="map">
         UPDATE BOARD
         SET CONTENT = #{content},
-        STATUS = CASE WHEN #{status} = 1 THEN 'Y' ELSE 'N' END  <!-- 같은 줄에 쉼표! -->
+        STATUS = CASE WHEN #{status} = 1 THEN 'Y' ELSE 'N' END
         WHERE TODO_ID = #{todoId}
     </update>
 
-    <!-- ✅ updateTodoStatus (이미 완벽!) -->
     <update id="updateTodoStatus" parameterType="map">
         UPDATE BOARD
         SET STATUS = CASE WHEN #{status} = 1 THEN 'Y' ELSE 'N' END
         WHERE TODO_ID = #{todoId}
     </update>
 
-    <delete id="deleteTodo" parameterType="int">
-        DELETE FROM BOARD
-        WHERE TODO_ID = #{todoId}
-    </delete>
+    <update id="deleteTodo" parameterType="int">
+        UPDATE BOARD
+        SET DELETE_FLAG = 'Y'
+        WHERE TODO_ID = #{todoId} AND DELETE_FLAG = 'N'
+    </update>
 
 </mapper>
