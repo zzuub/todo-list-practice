@@ -23,6 +23,9 @@ RMS 실습 1차 과제
 ## DB
 <img width="1044" height="496" alt="Image" src="https://github.com/user-attachments/assets/41f14ff5-d7c2-4f42-ad64-6cac08da908f" />
 
+## Swagger
+<img width="1361" height="424" alt="Image" src="https://github.com/user-attachments/assets/8c4e491f-b765-442f-8e4f-ff6bbd636624" />
+
 ## 트러블 슈팅
 1. 상황
 - DB에서는 새 Todo가 보이는데, 웹 화면 목록에는 추가한 할 일이 안 보임
