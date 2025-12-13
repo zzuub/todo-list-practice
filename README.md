@@ -18,24 +18,39 @@ RMS 실습 1차 과제
 <img width="1578" height="1319" alt="Image" src="https://github.com/user-attachments/assets/19ced4c3-497e-48df-8edc-f66281438635" />
 
 ## ERD
-<img width="831" height="256" alt="Image" src="https://github.com/user-attachments/assets/f6fdd291-be70-4ced-beae-e34f3ec155c7" />
+<img width="942" height="302" alt="Image" src="https://github.com/user-attachments/assets/d2d75bee-7568-4fd0-af6d-7297eaf19da8" />
 
-## SWAGGER
-<img width="1823" height="519" alt="Image" src="https://github.com/user-attachments/assets/91b17255-8e95-49d5-a5f8-1a47ebd78813" />
+## DB
+<img width="1044" height="496" alt="Image" src="https://github.com/user-attachments/assets/41f14ff5-d7c2-4f42-ad64-6cac08da908f" />
 
 ## 트러블 슈팅
-1. properties에서 DB 정보를 못 읽는 이슈
-> DataBaseConfig 파일 생성 (추가예정)
+1. 상황
+- DB에서는 새 Todo가 보이는데, 웹 화면 목록에는 추가한 할 일이 안 보임
+- SOFT_DELETE 적용, REGIST_DATE 자동 입력
+2. 원인
+- BOARD 테이블 정의에서 DELETE_FLAG_YN CHAR(1) DEFAULT NULL로 되어 있어서 새로 INSERT된 행의 DELETE_FLAG_YN이 전부 NULL로 들어감
+- List 쿼리 WHERE에 DELETE_FLAG_YN = 'N' 조건이 있어서, 새로 추가한 행들이 전부 결과에서 필터링됨
+- 프론트에서는 그 쿼리 결과만 받아서 그려서 등록 성공했는데 화면에는 안 나오는 현상이 발생함
+3. 해결
+> DDL 수정: ALTER TABLE BOARD MODIFY COLUMN DELETE_FLAG_YN CHAR(1) NOT NULL DEFAULT 'N';
+- INSERT 쿼리는 DELETE_FLAG_YN을 건드리지 않고 그대로 두어도, 이제부터는 자동으로 ‘N’이 들어가고 목록에도 바로 보임
+4. 배운점
+- Soft Delete를 도입할 때는 “컬럼 추가 + 기본값 설정 + 기존 데이터 마이그레이션 + WHERE 조건” 네 가지를 항상 한 세트로 봐야 함
+- 새 기능(DELETE_FLAG_YN) 추가 후에는 “INSERT → SELECT” 흐름까지 실제로 테스트해봐야 한다 (특히 WHERE 조건과 DEFAULT 값이 맞는지)
+
 ## 아쉬운 점
-### Front
-1. Fetch 사용
-<br/> JS에 시간을 많이 할애하지 못해서 fetch를 사용하였는데 Json 변환도 가능하고, 가독성, 예외처리, 유지보수 방면에서 ajax가 성능이 좋다고 생각하여 다음엔 ajax를 사용하여 개발 할 예정
-2. 에러 처리
-<br/> 백엔드에서 ExceptionCode 커스텀하여 에러 관리 파일 생성했는데 활용을 못함. 다음엔 error.code로 에러처리도 적용하고 싶다
-### Back
-1. 상태(STATUS) 컬럼 DB에 0/1 저장되게 했는데 다른 개발자가 봤을 땐 뭔지 모를 수 있으니 "Y"/"N"으로 받는게 어떠냐는 의견 받음
-<br/> -> 컬럼 설정 INT->CHAR로 변환
-<br/> -> .xml 수정 STATUS = CASE WHEN #{status} = 1 THEN 'Y' ELSE 'N' END
+1. 상황
+- ExceptionCode를 Service에서는 사용하고 있지만, 프론트에서는 모든 에러를 동일한 alert("오류가 발생했습니다!")로 처리
+- fetch 사용으로 서버에서 내려준 상세 에러코드(CONTENT001, TODO001 등)를 활용하지 못함
+2. 원인
+- 서버는 CONTENT001("할일 입력 필수"), TODO001("존재하지 않는 할일"), TODO002("수정 실패") 등으로 구분했는데, 프론트에서는 모두 "오류 발생"으로 통일 처리
+- fetch만 사용하여 에러처리가 단순화됨
+3. 개선방안
+- jQuery AJAX를 도입하고 ExceptionCode별 분기 처리 로직을 구현
+  - success/error 콜백으로 네트워크/서버 에러 자동 구분
+  - 자동 JSON 파싱
+  - 타임아웃, 재시도 로직 내장
+
 ## 알게된 점
 - HashMap vs Map.of
   - HashMap
@@ -56,3 +71,7 @@ RMS 실습 1차 과제
     - **HTTP 응답 변환**
     - ExceptionCode를 분석해서 JSON + HTTP 상태코드 생성
     - thorw 한 예외를 자동으로 잡음
+- SRP: 단일 책임 원칙 (single responsibility principle)
+  - 객체는 단 하나의 책임만 가져야 한다
+  - 하나의 클래스는 하나의 기능을 담당하여 하나의 책임을 수행
+  - 응집도는 높게, 결합도는 낮게. 생각하며 구성
