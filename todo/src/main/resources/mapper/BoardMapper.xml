@@ -5,63 +5,63 @@
 
     <select id="getTodoList" parameterType="map" resultType="map">
         SELECT
-            TODO_ID,
-            CONTENT,
-            DATE_FORMAT(REGIST_DATE, '%Y-%m-%d') AS registDate,
+            todo_id AS TODO_ID,
+            content AS CONTENT,
+            DATE_FORMAT(regist_date, '%Y-%m-%d') AS registDate,
             CASE
-                WHEN COMPLETED_YN = 'Y' THEN 1
-                WHEN COMPLETED_YN = 'N' THEN 0
+                WHEN completed_yn = 'Y' THEN 1
+                when completed_yn = 'n' then 0
                 ELSE 0
             END AS STATUS
-        FROM BOARD
+        FROM board
         <where>
-            DELETE_FLAG_YN = 'N'
+            delete_flag_yn = 'N'
             <if test="search != null and search != ''">
-                AND CONTENT LIKE CONCAT('%', #{search}, '%')
+                AND content LIKE CONCAT('%', #{search}, '%')
             </if>
             <if test="status != null">
-                AND COMPLETED_YN = CASE WHEN #{status} = 1 THEN 'Y' ELSE 'N' END
+                AND completed_yn = CASE WHEN #{status} = 1 THEN 'Y' ELSE 'N' END
             </if>
         </where>
         ORDER BY
-            CASE WHEN COMPLETED_YN = 'N' THEN 0 ELSE 1 END,
-            REGIST_DATE DESC
+            CASE WHEN completed_yn = 'N' THEN 0 ELSE 1 END,
+            regist_date DESC
         LIMIT #{pageSize} OFFSET #{offset}
     </select>
 
     <select id="getTodoListCnt" parameterType="map" resultType="int">
         SELECT COUNT(*)
-        FROM BOARD
+        FROM board
         <where>
-            DELETE_FLAG_YN = 'N'
+            delete_flag_yn = 'N'
             <if test="search != null and search != ''">
-                AND CONTENT LIKE CONCAT('%', #{search}, '%')
+                AND content LIKE CONCAT('%', #{search}, '%')
             </if>
             <if test="status != null">
-                AND COMPLETED_YN = CASE WHEN #{status} = 1 THEN 'Y' ELSE 'N' END
+                AND completed_yn = CASE WHEN #{status} = 1 THEN 'Y' ELSE 'N' END
             </if>
         </where>
     </select>
 
     <select id="getTodoDetail" parameterType="int" resultType="map">
         SELECT
-            TODO_ID,
-            CONTENT,
-            DATE_FORMAT(REGIST_DATE, '%Y-%m-%d') AS registDate,
+            todo_id AS TODO_ID,
+            content AS CONTENT,
+            DATE_FORMAT(regist_date, '%Y-%m-%d') AS registDate,
             CASE
-                WHEN COMPLETED_YN = 'Y' THEN 1
-                WHEN COMPLETED_YN = 'N' THEN 0
+                WHEN completed_yn = 'Y' THEN 1
+                WHEN completed_yn = 'N' THEN 0
                 ELSE 0
             END AS STATUS
-        FROM BOARD
-        WHERE TODO_ID = #{todoId}
-            AND DELETE_FLAG_YN = 'N'
+        FROM board
+        WHERE todo_id = #{todoId}
+            AND delete_flag_yn = 'N'
     </select>
 
     <insert id="addTodo" parameterType="map" useGeneratedKeys="true" keyProperty="todoId">
-        INSERT INTO BOARD (
-            CONTENT,
-            COMPLETED_YN
+        INSERT INTO board (
+            content,
+            completed_yn
         )
         VALUES (
             #{content},
@@ -74,32 +74,32 @@
     </insert>
 
     <update id="updateTodo" parameterType="map">
-        UPDATE BOARD
+        UPDATE board
         SET
-            CONTENT = #{content},
-            COMPLETED_YN = CASE
+            content = #{content},
+            completed_yn = CASE
                 WHEN #{status} = 1 THEN 'Y'
                 ELSE 'N'
             END
-        WHERE TODO_ID = #{todoId}
+        WHERE todo_id = #{todoId}
     </update>
 
     <update id="updateTodoStatus" parameterType="map">
-        UPDATE BOARD
+        UPDATE board
         SET
-            COMPLETED_YN = CASE
+            completed_yn = CASE
                 WHEN #{status} = 1 THEN 'Y'
                 ELSE 'N'
             END
-        WHERE TODO_ID = #{todoId}
+        WHERE todo_id = #{todoId}
     </update>
 
     <update id="deleteTodo" parameterType="int">
-        UPDATE BOARD
+        UPDATE board
         SET
-            DELETE_FLAG_YN = 'Y'
-        WHERE TODO_ID = #{todoId}
-            AND DELETE_FLAG_YN = 'N'
+            delete_flag_yn = 'Y'
+        WHERE todo_id = #{todoId}
+            AND delete_flag_yn = 'N'
     </update>
 
 </mapper>
