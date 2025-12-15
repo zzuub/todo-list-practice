@@ -18,10 +18,10 @@ RMS 실습 1차 과제
 <img width="1578" height="1319" alt="Image" src="https://github.com/user-attachments/assets/19ced4c3-497e-48df-8edc-f66281438635" />
 
 ## ERD
-<img width="942" height="302" alt="Image" src="https://github.com/user-attachments/assets/d2d75bee-7568-4fd0-af6d-7297eaf19da8" />
+<img width="691" height="231" alt="Image" src="https://github.com/user-attachments/assets/4df945ff-2b57-4111-a375-6dcd6635d051" />
 
 ## DB
-<img width="1044" height="496" alt="Image" src="https://github.com/user-attachments/assets/41f14ff5-d7c2-4f42-ad64-6cac08da908f" />
+<img width="941" height="332" alt="Image" src="https://github.com/user-attachments/assets/a15ea73f-808b-467b-9f28-5d37b01878e7" />
 
 ## Swagger
 <img width="1361" height="424" alt="Image" src="https://github.com/user-attachments/assets/8c4e491f-b765-442f-8e4f-ff6bbd636624" />
