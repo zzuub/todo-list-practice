@@ -77,7 +77,8 @@
         UPDATE board
         SET
             content = #{content},
-            completed_yn = CASE
+            completed_yn =
+            CASE
                 WHEN #{status} = 1 THEN 'Y'
                 ELSE 'N'
             END
@@ -87,7 +88,8 @@
     <update id="updateTodoStatus" parameterType="map">
         UPDATE board
         SET
-            completed_yn = CASE
+            completed_yn =
+            CASE
                 WHEN #{status} = 1 THEN 'Y'
                 ELSE 'N'
             END
@@ -99,7 +101,7 @@
         SET
             delete_flag_yn = 'Y'
         WHERE todo_id = #{todoId}
-            AND delete_flag_yn = 'N'
+        AND delete_flag_yn = 'N'
     </update>
 
 </mapper>
