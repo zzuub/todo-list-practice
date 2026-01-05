@@ -18,7 +18,7 @@ RMS 실습 1차 과제
 <img width="1578" height="1319" alt="Image" src="https://github.com/user-attachments/assets/19ced4c3-497e-48df-8edc-f66281438635" />
 
 ## ERD
-<img width="852" height="260" alt="Image" src="https://github.com/user-attachments/assets/c89a72d2-a9b5-4a3c-a25c-7c7e3aab1fb3" />
+<img width="872" height="302" alt="Image" src="https://github.com/user-attachments/assets/cd2cf4e8-04e5-4b47-b15a-21fa9e398d11" />
 
 ## DB
 <img width="941" height="332" alt="Image" src="https://github.com/user-attachments/assets/a15ea73f-808b-467b-9f28-5d37b01878e7" />
